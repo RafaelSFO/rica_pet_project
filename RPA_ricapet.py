@@ -49,7 +49,7 @@ mudar_status = coleta_separacoes(1)
 mudar_status.reset_index(drop=True, inplace=True)
 mudar_status
 lista_separacoes = mudar_status['id'].astype('int').to_list()
-def muda_status(ids):
+def change_status(ids):
     list_dict_id = []
     alt_sep  ='https://api.tiny.com.br/api2/separacao.alterar.situacao.php'
     for id in ids:
@@ -57,7 +57,7 @@ def muda_status(ids):
 
     for param in list_dict_id:
         requests.get(alt_sep, params=param)
-muda_status(lista_separacoes)
+change_status(lista_separacoes)
 separacoes_iniciais = coleta_separacoes(2)
 separacoes_iniciais.reset_index(drop=True, inplace=True)
 status_separacao = 'https://api.tiny.com.br/api2/separacao.obter.php'
