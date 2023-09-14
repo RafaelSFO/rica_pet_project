@@ -19,7 +19,7 @@ import credentials
 inicio = datetime.now().strftime("%d-%m-%Y %H-%M-%S")
 
 ## Encontrando as Separações
-api_key = credentials.api_key
+api_key = credentials.api_key_ricapet
 url_search = 'https://api.tiny.com.br/api2/separacao.pesquisa.php'
 def coleta_separacoes(situacao):
     # Configurando os cabeçalhos da requisição com a chave de API
@@ -72,11 +72,12 @@ def qtd_dos_clicks(id_separacao, i):
         return num_clicks
     except:
         pass
-path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+#path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+path_inicial = r'C:\Users\snt\Documents\RPA\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
 separacoes_iniciais.to_excel(path_inicial, index=False)
 
-login = credentials.login
-senha = credentials.senha
+login = credentials.login_ricapet
+senha = credentials.senha_ricapet
 # Abrindo uma instância do Google Chrome
 def inicia_chrome():
     try:
@@ -190,5 +191,6 @@ situacao_final['id'] = situacao_final['id'].astype('str')
 final_validacao = validacao_separacoes.merge(situacao_final[['id', 'situacao']], how='left', on='id')
 final_validacao.loc[final_validacao['situacao'] == '3', 'Status'] = 'Finalizado com sucesso'
 final_validacao.loc[final_validacao['situacao'] != '3', 'Status'] = 'Finalizado sem sucesso'
-path = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+#path = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+path = r'C:\Users\snt\Documents\RPA\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
 final_validacao.to_excel(path, index=False)
