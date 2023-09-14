@@ -1,4 +1,3 @@
-# %%
 # Teste API
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
@@ -18,9 +17,23 @@ import pandas as pd
 import credentials
 
 inicio = datetime.now().strftime("%d-%m-%Y %H-%M-%S")
+def exit_program():
+    sys.exit('Você digitou algo errado, tente novamente. Robô sendo encerrado')
+
+print('Qual sistema deseja entrar? \n 1 - Ricapet \n 2 - Thapet')
+sistema = int(input('Digite a opção: '))
+if sistema == 1:
+    login = credentials.login_ricapet
+    senha = credentials.senha_ricapet
+    api_key = credentials.api_key_ricapet
+elif sistema == 2:
+    login = credentials.login_thapet
+    senha = credentials.senha_thapet
+    api_key = credentials.api_key_thapet
+else:
+    exit_program()
 
 ## Encontrando as Separações
-api_key = credentials.api_key
 url_search = 'https://api.tiny.com.br/api2/separacao.pesquisa.php'
 def coleta_separacoes(situacao):
     # Configurando os cabeçalhos da requisição com a chave de API
@@ -47,8 +60,7 @@ def coleta_separacoes(situacao):
         return separacoes_iniciais
 mudar_status = coleta_separacoes(1)
 mudar_status.reset_index(drop=True, inplace=True)
-def exit_program():
-    sys.exit('Você digitou algo errado, tente novamente. Robô sendo encerrado')
+
 
 print('Escolha a opção para a execução do robô: \n 1 - Definir a NF INICIAL E NF FINAL \n 2 - Definir quantidade a partir da NF INICIAL \n 3 - Escolher as NFs individualmente')
 option = int(input('Digite a opção: '))
@@ -111,11 +123,11 @@ def qtd_dos_clicks(id_separacao, i):
         return num_clicks
     except:
         pass
-path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+#path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+path_inicial = r'C:\Users\snt\Documents\RPA\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
 separacoes_iniciais.to_excel(path_inicial, index=False)
 
-login = credentials.login
-senha = credentials.senha
+
 # Abrindo uma instância do Google Chrome
 def inicia_chrome():
     try:
@@ -229,5 +241,6 @@ situacao_final['id'] = situacao_final['id'].astype('str')
 final_validacao = validacao_separacoes.merge(situacao_final[['id', 'situacao']], how='left', on='id')
 final_validacao.loc[final_validacao['situacao'] == '3', 'Status'] = 'Finalizado com sucesso'
 final_validacao.loc[final_validacao['situacao'] != '3', 'Status'] = 'Finalizado sem sucesso'
-path = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+#path = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+path = r'C:\Users\snt\Documents\RPA\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
 final_validacao.to_excel(path, index=False)
