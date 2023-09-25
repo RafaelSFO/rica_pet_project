@@ -1,4 +1,5 @@
 # Teste API
+# %%
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
@@ -15,6 +16,7 @@ import time
 import requests
 import pandas as pd
 import credentials
+# %%
 
 inicio = datetime.now().strftime("%d-%m-%Y %H-%M-%S")
 def exit_program():
@@ -61,8 +63,8 @@ def coleta_separacoes(situacao):
 mudar_status = coleta_separacoes(1)
 mudar_status.reset_index(drop=True, inplace=True)
 
-
-print('Escolha a opção para a execução do robô: \n 1 - Definir a NF INICIAL E NF FINAL \n 2 - Definir quantidade a partir da NF INICIAL \n 3 - Escolher as NFs individualmente')
+# %%
+print('Escolha a opção para a execução do robô: \n 1 - Definir a NF INICIAL E NF FINAL \n 2 - Definir quantidade a partir da NF INICIAL \n 3 - Escolher as NFs individualmente \n 4 - Definir apenas a NF INICIAL e rodar até o fim')
 option = int(input('Digite a opção: '))
 
 if option == 1:
@@ -96,7 +98,10 @@ elif option == 3:
         nfs_selecionadas = mudar_status[mudar_status['numero'].isin(nf_list)]
     except:
         exit_program()
-
+elif option == 4:
+    nf1 = input('Digite a primeira nota fiscal: ')
+    idx1 = mudar_status.index[mudar_status['numero'] == nf1].item()
+    nfs_selecionadas = mudar_status.loc[idx1:]
 
 lista_separacoes = nfs_selecionadas['id'].astype('int').to_list()
 def change_status(ids):
@@ -127,15 +132,14 @@ def qtd_dos_clicks(id_separacao, i):
 path_inicial = r'C:\Users\snt\Documents\RPA\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
 separacoes_iniciais.to_excel(path_inicial, index=False)
 
-
+# %%
 # Abrindo uma instância do Google Chrome
 def inicia_chrome():
     try:
         global browser
-        #service = Service()
         #options = webdriver.ChromeOptions()
         browser = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()))
-        #browser = webdriver.Chrome(service=service, options=options)
+        #browser = webdriver.Chrome()
         browser.implicitly_wait(30)
         browser.maximize_window()
         # Acessando o site
