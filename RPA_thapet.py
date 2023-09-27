@@ -189,3 +189,4 @@ final_validacao.loc[final_validacao['situacao'] == '3', 'Status'] = 'Finalizado 
 final_validacao.loc[final_validacao['situacao'] != '3', 'Status'] = 'Finalizado sem sucesso'
 path = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Execução Final\execucao_thapet {}.xlsx'.format(inicio)
 final_validacao.to_excel(path, index=False)
+print("Finalizado com Sucesso")
