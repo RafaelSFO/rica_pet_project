@@ -163,6 +163,11 @@ def inicia_chrome():
             time.sleep(3)
             browser.get('https://erp.tiny.com.br/separacao') #link das separações
         time.sleep(3)
+        try:
+            browser.find_element(By.XPATH, '//*[@id="page-wrapper"]/div[2]/div[1]/div[3]/ul/li[6]/a').click()
+        except:
+            pass
+        time.sleep(2)
         browser.find_element(By.XPATH, '//*[@id="opc-sit-S"]').click() #clica em separadas
         browser.find_element(By.XPATH, '//*[@id="page-wrapper"]/div[2]/div[1]/div[1]/div/button[1]').click() #embala
         try: 
