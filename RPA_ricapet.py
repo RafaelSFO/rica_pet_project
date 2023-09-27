@@ -12,11 +12,13 @@ import requests
 import pandas as pd
 import credentials
 
+print('Iniciando Robô')
 inicio = datetime.now().strftime("%d-%m-%Y %H-%M-%S")
 
 ## Encontrando as Separações
 api_key = credentials.api_key_ricapet
 url_search = 'https://api.tiny.com.br/api2/separacao.pesquisa.php'
+print('Leitura da quantidade de notas a serem movidas')
 def coleta_separacoes(situacao):
     # Configurando os cabeçalhos da requisição com a chave de API
     #Fazendo a requisição GET
@@ -43,7 +45,6 @@ def coleta_separacoes(situacao):
 
 mudar_status = coleta_separacoes(1)
 mudar_status.reset_index(drop=True, inplace=True)
-mudar_status
 lista_separacoes = mudar_status['id'].astype('int').to_list()
 def change_status(ids):
     list_dict_id = []
@@ -53,9 +54,12 @@ def change_status(ids):
 
     for param in list_dict_id:
         requests.get(alt_sep, params=param)
+print('Mudando o status das notas')
 change_status(lista_separacoes)
+print('Leitura das notas que mudaram de status')
 separacoes_iniciais = coleta_separacoes(2)
 separacoes_iniciais.reset_index(drop=True, inplace=True)
+
 status_separacao = 'https://api.tiny.com.br/api2/separacao.obter.php'
 def qtd_dos_clicks(id_separacao, i):
     try:
@@ -75,6 +79,7 @@ separacoes_iniciais.to_excel(path_inicial, index=False)
 login = credentials.login_ricapet
 senha = credentials.senha_ricapet
 # Abrindo uma instância do Google Chrome
+print('Inicia a impressão')
 def inicia_chrome():
     try:
         global browser
@@ -163,6 +168,7 @@ try:
 except:
     pass # se deu algum erro no meio da execução e não tiver mais chrome aberto, ele vai dar erro
 # Validação
+print('Inicia validação')
 validacao_separacoes = separacoes_iniciais[['id', 'numero']]
 validacao_separacoes['id'] = validacao_separacoes['id'].astype('str')
 dict_list = []

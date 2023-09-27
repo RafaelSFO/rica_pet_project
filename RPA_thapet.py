@@ -12,11 +12,13 @@ import requests
 import pandas as pd
 import credentials
 
+print('Iniciando Robô')
 inicio = datetime.now().strftime("%d-%m-%Y %H-%M-%S")
 # %%%
 ## Encontrando as Separações
 api_key = credentials.api_key_thapet
 url_search = 'https://api.tiny.com.br/api2/separacao.pesquisa.php'
+print('Leitura da quantidade de notas a serem movidas')
 def coleta_separacoes(situacao):
     # Configurando os cabeçalhos da requisição com a chave de API
     #Fazendo a requisição GET
@@ -53,7 +55,9 @@ def muda_status(ids):
 
     for param in list_dict_id:
         requests.get(alt_sep, params=param)
+print('Mudando o status das notas')
 muda_status(lista_separacoes)
+print('Leitura das notas que mudaram de status')
 separacoes_iniciais = coleta_separacoes(2)
 separacoes_iniciais.reset_index(drop=True, inplace=True)
 
@@ -77,6 +81,7 @@ login = credentials.login_thapet
 senha = credentials.senha_thapet
 # %%
 # Abrindo uma instância do Google Chrome
+print('Inicia a impressão')
 def inicia_chrome():
     try:
         global browser
@@ -163,6 +168,8 @@ try:
 except:
     pass # se deu algum erro no meio da execução e não tiver mais chrome aberto, ele vai dar erro
 # Validação
+
+print('Inicia validação')
 validacao_separacoes = separacoes_iniciais[['id', 'numero']]
 validacao_separacoes['id'] = validacao_separacoes['id'].astype('str')
 dict_list = []
