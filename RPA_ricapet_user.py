@@ -99,19 +99,21 @@ elif option == 4:
     nf1 = input('Digite a primeira nota fiscal: ')
     idx1 = mudar_status.index[mudar_status['numero'] == nf1].item()
     nfs_selecionadas = mudar_status.loc[idx1:]
+try:
+    lista_separacoes = nfs_selecionadas['id'].astype('int').to_list()
+    def change_status(ids):
+        list_dict_id = []
+        alt_sep  ='https://api.tiny.com.br/api2/separacao.alterar.situacao.php'
+        for id in ids:
+            list_dict_id.append({'token': f'{api_key}', 'situacao': 2, 'idSeparacao': id})
 
-lista_separacoes = nfs_selecionadas['id'].astype('int').to_list()
-def change_status(ids):
-    list_dict_id = []
-    alt_sep  ='https://api.tiny.com.br/api2/separacao.alterar.situacao.php'
-    for id in ids:
-        list_dict_id.append({'token': f'{api_key}', 'situacao': 2, 'idSeparacao': id})
-
-    for param in list_dict_id:
-        requests.get(alt_sep, params=param)
-print('Mudando o status das notas')
-change_status(lista_separacoes)
-print('Leitura das notas que mudaram de status')
+        for param in list_dict_id:
+            requests.get(alt_sep, params=param)
+    print('Mudando o status das notas')
+    change_status(lista_separacoes)
+except:
+    print('Sem notas para mover')
+print('Leitura das notas em separação')
 
 separacoes_iniciais = coleta_separacoes(2)
 separacoes_iniciais.reset_index(drop=True, inplace=True)

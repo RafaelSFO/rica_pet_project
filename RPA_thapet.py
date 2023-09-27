@@ -42,22 +42,23 @@ def coleta_separacoes(situacao):
     except KeyError:
         print('Sem dados em separação')
         return separacoes_iniciais
+try:
+    mudar_status = coleta_separacoes(1)
+    mudar_status.reset_index(drop=True, inplace=True)
+    lista_separacoes = mudar_status['id'].astype('int').to_list()
+    def muda_status(ids):
+        list_dict_id = []
+        alt_sep  ='https://api.tiny.com.br/api2/separacao.alterar.situacao.php'
+        for id in ids:
+            list_dict_id.append({'token': f'{api_key}', 'situacao': 2, 'idSeparacao': id})
 
-mudar_status = coleta_separacoes(1)
-mudar_status.reset_index(drop=True, inplace=True)
-# %%
-lista_separacoes = mudar_status['id'].astype('int').to_list()
-def muda_status(ids):
-    list_dict_id = []
-    alt_sep  ='https://api.tiny.com.br/api2/separacao.alterar.situacao.php'
-    for id in ids:
-        list_dict_id.append({'token': f'{api_key}', 'situacao': 2, 'idSeparacao': id})
-
-    for param in list_dict_id:
-        requests.get(alt_sep, params=param)
-print('Mudando o status das notas')
-muda_status(lista_separacoes)
-print('Leitura das notas que mudaram de status')
+        for param in list_dict_id:
+            requests.get(alt_sep, params=param)
+    print('Mudando o status das notas')
+    muda_status(lista_separacoes)
+except:
+    print('Sem notas para mover')
+print('Leitura das notas em separação')
 separacoes_iniciais = coleta_separacoes(2)
 separacoes_iniciais.reset_index(drop=True, inplace=True)
 
