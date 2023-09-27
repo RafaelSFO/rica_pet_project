@@ -1,10 +1,6 @@
 # %%
 # Teste API
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.edge.service import Service as EdgeService
 from selenium import webdriver
@@ -17,7 +13,7 @@ import pandas as pd
 import credentials
 
 inicio = datetime.now().strftime("%d-%m-%Y %H-%M-%S")
-
+# %%%
 ## Encontrando as Separações
 api_key = credentials.api_key_thapet
 url_search = 'https://api.tiny.com.br/api2/separacao.pesquisa.php'
@@ -47,7 +43,7 @@ def coleta_separacoes(situacao):
 
 mudar_status = coleta_separacoes(1)
 mudar_status.reset_index(drop=True, inplace=True)
-
+# %%
 lista_separacoes = mudar_status['id'].astype('int').to_list()
 def muda_status(ids):
     list_dict_id = []
@@ -74,11 +70,12 @@ def qtd_dos_clicks(id_separacao, i):
     except:
         pass
 #path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\RPA Thapet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
-path_inicial = r'C:\Users\snt\Documents\RPA\ThaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+path_inicial = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Separações Iniciais\execucao_thapet {}.xlsx'.format(inicio)
 separacoes_iniciais.to_excel(path_inicial, index=False)
-
+# %%
 login = credentials.login_thapet
 senha = credentials.senha_thapet
+# %%
 # Abrindo uma instância do Google Chrome
 def inicia_chrome():
     try:
@@ -190,5 +187,5 @@ situacao_final['id'] = situacao_final['id'].astype('str')
 final_validacao = validacao_separacoes.merge(situacao_final[['id', 'situacao']], how='left', on='id')
 final_validacao.loc[final_validacao['situacao'] == '3', 'Status'] = 'Finalizado com sucesso'
 final_validacao.loc[final_validacao['situacao'] != '3', 'Status'] = 'Finalizado sem sucesso'
-path = r'C:\Users\snt\Documents\RPA\ThaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+path = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Execução Final\execucao_thapet {}.xlsx'.format(inicio)
 final_validacao.to_excel(path, index=False)

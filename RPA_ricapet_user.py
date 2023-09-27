@@ -125,7 +125,7 @@ def qtd_dos_clicks(id_separacao, i):
     except:
         pass
 #path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
-path_inicial = r'C:\Users\snt\Documents\RPA\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+path_inicial = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Separações Iniciais\execucao_user {}.xlsx'.format(inicio)
 separacoes_iniciais.to_excel(path_inicial, index=False)
 
 # %%
@@ -242,5 +242,5 @@ final_validacao = validacao_separacoes.merge(situacao_final[['id', 'situacao']],
 final_validacao.loc[final_validacao['situacao'] == '3', 'Status'] = 'Finalizado com sucesso'
 final_validacao.loc[final_validacao['situacao'] != '3', 'Status'] = 'Finalizado sem sucesso'
 #path = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
-path = r'C:\Users\snt\Documents\RPA\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+path = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Execução Final\execucao_user {}.xlsx'.format(inicio)
 final_validacao.to_excel(path, index=False)

@@ -1,10 +1,6 @@
 # %%
 # Teste API
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.edge.service import Service as EdgeService
 from selenium import webdriver
@@ -73,7 +69,7 @@ def qtd_dos_clicks(id_separacao, i):
     except:
         pass
 #path_inicial = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
-path_inicial = r'C:\Users\snt\Documents\RPA\RicaPet\Separações Iniciais\execucao {}.xlsx'.format(inicio)
+path_inicial = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Separações Iniciais\execucao_ricapet {}.xlsx'.format(inicio)
 separacoes_iniciais.to_excel(path_inicial, index=False)
 
 login = credentials.login_ricapet
@@ -192,5 +188,5 @@ final_validacao = validacao_separacoes.merge(situacao_final[['id', 'situacao']],
 final_validacao.loc[final_validacao['situacao'] == '3', 'Status'] = 'Finalizado com sucesso'
 final_validacao.loc[final_validacao['situacao'] != '3', 'Status'] = 'Finalizado sem sucesso'
 #path = r'C:\Users\rafae\Documents\EMPREGO\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
-path = r'C:\Users\snt\Documents\RPA\RicaPet\Execução Final\execucao {}.xlsx'.format(inicio)
+path = r'C:\Users\snt\Documents\RPA\Repositório\rica_pet_project\Execução Final\execucao_ricapet {}.xlsx'.format(inicio)
 final_validacao.to_excel(path, index=False)
